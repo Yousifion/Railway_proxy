@@ -1,0 +1,20 @@
+{
+  "name": "railway-ts-proxy",
+  "version": "1.0.0",
+  "description": "A proxy server for Railway based on Deno code.",
+  "main": "index.ts",
+  "scripts": {
+    "start": "ts-node index.ts"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "node-fetch": "^3.3.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.12.12",
+    "@types/node-fetch": "^2.6.11",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  }
+}
