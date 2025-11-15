@@ -6,8 +6,9 @@ const app = express();
 // Railway provides the port via the PORT environment variable
 const PORT = process.env.PORT || 3000;
 
-// Use built-in express body parser middleware
-app.use(express.json());
+// 🛑 IMPORTANT UPDATE: Increase body size limit to 50mb to handle large payloads (e.g., 22k tokens)
+app.use(express.json({ limit: '50mb' })); 
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 /*
     WARNING: This in-memory rate limiter is for demonstration only.
@@ -21,9 +22,6 @@ const ipMap = new Map<string, number[]>();
 // --- Rate Limiting Middleware ---
 const rateLimiter = (req: Request, res: Response, next: NextFunction) => {
     // In Express/Railway, the client IP is typically found in 'x-forwarded-for' 
-    // or 'x-real-ip', but for a simple setup, Express's `req.ip` or a forwarded
-    // header is common. We'll stick to a forwarded header for Deno code similarity.
-    // NOTE: `req.headers['x-forwarded-for']` is standard on platforms like Railway.
     const ipHeader = req.headers['x-forwarded-for'] || req.socket.remoteAddress || "unknown";
     // Get the first IP in the list (most likely the client)
     const ip = Array.isArray(ipHeader) ? ipHeader[0].split(',')[0].trim() : ipHeader.split(',')[0].trim();
